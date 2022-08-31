@@ -1,5 +1,3 @@
-if (alarm[0] > 0) exit
-
 //Create timed event
 if (draw_transition = 0)
 {
@@ -48,41 +46,83 @@ if (draw_transition = 0)
 	}
 }
 
-//Detect mouse hover over hotspot and if it is clicked
-if ((enablepanoramamode = 0 || mouse_is_locked() = 1) && draw_transition = 0 && ImageLoaded = 1 && hotspots_activate = 1 && enableclick = 1)
+//Detect mouse hover over hotspot
+if (draw_transition = 0 && ImageLoaded = 1)
 {
 	for (i = 0; i < frame_maxhotspotcount; i += 1)
 	{
+		variable_enable_hotspot[i] = 1
 		for (globalindex = 0; globalindex < maxglobalindex; globalindex += 1)
 		{
-			for (varindex = 0; varindex < maxglobalindex; varindex += 1)
+			for (varindex = 0; varindex <= variable_maxvariablecount[i]; varindex += 1)
 			{
-				variable_enable_hotspot[i, varindex] = 0
-				if (variable_get[i, varindex] = 1)
+				if (global_variable[globalindex] = variable_name[i, varindex])
 				{
-					if (global_variable[globalindex] = variable_name[i, varindex])
+					if (variable_get[i, varindex] = 1)
 					{
 						if (variable_get_value[i, varindex] = variable_set_value[i, varindex])
 						{
-							variable_enable_hotspot[i, varindex] = 1
+							variable_enable_hotspot[i] = 1
+						}
+						else 
+						{
+							variable_enable_hotspot[i] = 0 
 						}
 					}
 				}
-				if (variable_enable_hotspot[i, varindex] = 1 || variable_exists[i] = 0)
+			}
+		}
+		if (mousex >= real(left[i]) && mousey >= real(top[i]) && mousex <= real(left[i]) + real(width[i]) && mousey <= real(top[i]) + real(height[i]) && variable_enable_hotspot[i] = 1)
+		{
+			over_counter += 1
+			over_hotspot = 1
+		}
+		if (mousex >= real(left[i]) && mousey >= real(top[i]) && mousex <= real(left[i]) + real(width[i]) && mousey <= real(top[i]) + real(height[i]) && variable_enable_hotspot[i] = 1)
+		{
+			over_counter2 += 1
+		}
+		if (over_counter2 = 0)
+		{
+			while (over_counter > 0)
+			{
+				over_counter -= 1
+			}
+			over_hotspot = 0
+		}
+	}
+	over_counter2 = 0
+}
+
+//Detect the specific hotspot clicked
+if (enablepanoramamode = 0 || mouse_is_locked() = 1)
+{
+	if (draw_transition = 0 && ImageLoaded = 1)
+	{
+		if (hotspots_activate = 1)
+		{
+			for (i = 0; i < frame_maxhotspotcount; i += 1)
+			{
+				if (enableclick = 1)
 				{
-					if (mousex >= real(left[i]) && mousey >= real(top[i]) && mousex <= real(left[i]) + real(width[i]) && mousey <= real(top[i]) + real(height[i]))
+					if (mouse_check_button_pressed(mb_left))
 					{
-						over_counter += 1
-						over_hotspot = 1
-						over_counter2 += 1
-						if (mouse_check_button_pressed(mb_left))
+						if (mousex >= real(left[i]) && mousey >= real(top[i]) && mousex <= real(left[i]) + real(width[i]) && mousey <= real(top[i]) + real(height[i]) && variable_enable_hotspot[i] = 1)
 						{
 							clicked[i] = 1
-							if (variable_set[i, varindex] = 1)
+							for (globalindex = 0; globalindex < maxglobalindex; globalindex += 1)
 							{
-								ini_open(working_directory + "/run.ini")
-								variable_set_value[i, varindex] = ini_read_real(string(currentframe) + "-hotspot" + string(i) + "-variable" + string(varindex), "variable_set_value", 0)
-								ini_close()
+								for (varindex = 0; varindex <= variable_maxvariablecount[i]; varindex += 1)
+								{
+									if (global_variable[globalindex] = variable_name[i, varindex])
+									{
+										if (variable_set[i, varindex] = 1)
+										{
+											ini_open(working_directory + "/run.ini")
+											variable_set_value[i, varindex] = ini_read_real(string(currentframe) + "-hotspot" + string(i) + "-variable" + string(varindex), "variable_set_value", 0)
+											ini_close()
+										}
+									}
+								}
 							}
 							if (gotoframe1[i] = 1)
 							{
@@ -114,7 +154,6 @@ if ((enablepanoramamode = 0 || mouse_is_locked() = 1) && draw_transition = 0 && 
 								messageduration[i] = (string_length(messagetext[i]) * 0.075)
 								ini_close()
 							}
-							break
 						}
 						else 
 						{ 
@@ -124,20 +163,9 @@ if ((enablepanoramamode = 0 || mouse_is_locked() = 1) && draw_transition = 0 && 
 					}
 				}
 			}
-			
-		}
-		if (over_counter2 = 0)
-		{
-			if (over_counter > 0)
-			{
-				over_counter = 0
-			}
-			over_hotspot = 0
 		}
 	}
-	over_counter2 = 0
 }
-
 
 //Transition Closing
 if (draw_transition = 1)
@@ -261,6 +289,3 @@ if (window_has_focus() = 1)
 {
 	surface_resize(application_surface, window_get_width(), window_get_height())
 }
-
-
-

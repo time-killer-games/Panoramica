@@ -1,7 +1,4 @@
-if (alarm[0] > 0) exit
-
 //Draw Transition (GameMaker Studio 1.x and GameMaker Studio 2.x)
-display_set_gui_size(window_get_width(), window_get_height());
 if (draw_transition = 1 && ImageLoaded = 1)
 {
 	if (transition_create = 1)
@@ -36,15 +33,19 @@ if (draw_transition = 1)
 {
 	if (enablepanoramamode = 1)
 	{
-		d3d_set_projection_ortho(0, 0, window_get_width(), window_get_height(), 0)
-		draw_sprite(spr_cr_handpoint, 0, window_get_width() / 2, window_get_height() / 2)
+		if (global.mode == 1) {
+			draw_sprite(spr_cr_handpoint, 0, window_get_width() / 2, window_get_height() / 2)	
+		} else if (global.mode == 2) {
+			draw_sprite(spr_cr_handpoint, 0, window_mouse_get_x(), window_mouse_get_y())
+		}
+		
 		if (debug_mode = 1 || debug_game = 1)
 		{
 			draw_set_halign(fa_center)
 			draw_set_valign(fa_middle)
 			draw_set_color(c_white)
 			draw_set_font(Font)
-			draw_text((window_get_width() / 2), (window_get_height() / 2) + 32, "(" + string(mousex) + "," + string(mousey) + ")")
+			draw_text(window_mouse_get_x(), window_mouse_get_y() + 32, "(" + string(mousex) + "," + string(mousey) + ")")
 		}
 	}
 	else 
@@ -61,5 +62,3 @@ if (draw_transition = 1)
 		}
 	}
 }
-
-

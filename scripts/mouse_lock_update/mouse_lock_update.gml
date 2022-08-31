@@ -11,7 +11,9 @@ function mouse_lock_update() {
 	global.g_mouse_delta_x = window_mouse_get_x() - nx;
 	global.g_mouse_delta_y = window_mouse_get_y() - ny;
 	}
-	window_mouse_set(nx, ny);
+		if (global.mode == 1) {
+			window_mouse_set(nx, ny);
+		}
 	}
 	global.g_mouse_was_locked = locked;
 }

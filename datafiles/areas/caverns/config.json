@@ -1,0 +1,37 @@
+{
+    "panorama_config": {
+        "gametitle": "Long Live the Ancient Essence",
+        "startframe": 1,
+        "start_direction": [180, 0],
+        "aspect_ratio": 1,
+        "debug_mode": 0
+    },
+
+    "frames": [
+        {
+            "background": ["frames/caverns_part_1.png", 1],
+            "sound_channels": [
+                [
+                    "chanting_warlocks.ogg",
+                    "chanting_warlocks.wav",
+                    true
+                ],
+                [
+                    "mark_of_the_beast.ogg",
+                    "mark_of_the_beast.wav",
+                    true
+                ]
+            ],
+            "panorama_projection": true,
+            "timed_event": {
+                "has_timed_event": false,
+                "total_time": 4,
+                "event_tranistion_duration": 0.8
+            },
+            "hotspot_map": {
+                "location": [1907, 853],
+                "size": []
+            }
+        }
+    ]
+}
