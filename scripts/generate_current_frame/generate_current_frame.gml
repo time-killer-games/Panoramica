@@ -62,6 +62,11 @@ function generate_current_frame()
 	}
 	for (i = 0; i < frame_maxhotspotcount; i += 1)
 	{
+		variable_maxvariablecount[i] = 0
+		while (ini_section_exists(string(currentframe) + "-hotspot" + string(frame_maxhotspotcount) + "-variable" + string(variable_maxvariablecount[i])))
+		{
+			variable_maxvariablecount[i] += 1
+		}
 		left[i] = ini_read_real(string(currentframe) + "-hotspot" + string(i), "hotspot_left", 0)
 		top[i] = ini_read_real(string(currentframe) + "-hotspot" + string(i), "hotspot_top", 0)
 		width[i] = ini_read_real(string(currentframe) + "-hotspot" + string(i), "hotspot_width", 0)
@@ -114,28 +119,15 @@ function generate_current_frame()
 		transitionduration1[i] = ini_read_real(string(currentframe) + "-hotspot" + string(i), "hotspot_transitionduration", 0.8)
 		frame[i] = ini_read_string(string(currentframe) + "-hotspot" + string(i), "hotspot_destinationframe", "")
 		showmessage[i] = 0
-		messagetext[i] = ini_read_string(string(currentframe) + "-hotspot" + string(i), "hotspot_messagetext", "")
+		messagetext[i] = string_replace_all(ini_read_string(string(currentframe) + "-hotspot" + string(i), "hotspot_messagetext", ""), "#", "\#")
+		messagetext[i] = string_replace_all(messagetext[i], "\n", "#")
 		messageduration[i] = (string_length(messagetext[i]) * 0.075)
-		varindex = 0
-		while (ini_key_exists("gamesettings", "global_variable" + string(varindex)))
+		for (varindex = 0; varindex <= variable_maxvariablecount[i]; varindex += 1)
 		{
-			variable_name[i, varindex] = ini_read_string(string(currentframe) + "-hotspot" + string(i) + "-variable" + string(varindex), "variable_name", global_variable[varindex])
+			variable_name[i, varindex] = ini_read_string(string(currentframe) + "-hotspot" + string(i) + "-variable" + string(varindex), "variable_name", "")
 			variable_set[i, varindex] = ini_read_real(string(currentframe) + "-hotspot" + string(i) + "-variable" + string(varindex), "variable_set", 0)
 			variable_get_value[i, varindex] = ini_read_real(string(currentframe) + "-hotspot" + string(i) + "-variable" + string(varindex), "variable_get_value", 0)
 			variable_get[i, varindex] = ini_read_real(string(currentframe) + "-hotspot" + string(i) + "-variable" + string(varindex), "variable_get", 0)
-			varindex += 1
-		}
-		for (varindex = 0; varindex < maxglobalindex; varindex += 1)
-		{
-			if (ini_section_exists(string(currentframe) + "-hotspot" + string(i) + "-variable" + string(varindex)))
-			{
-				variable_exists[i] = 1
-				break
-			}
-			else
-			{
-				variable_exists[i] = 0
-			}
 		}
 	}
 	if (sprite_exists(Transparent)) 
@@ -146,7 +138,7 @@ function generate_current_frame()
 	{
 		Transparent = sprite_add(working_directory + "/" + string(currentframe), frame_background_imgnumb, 0, 0, 0, 0)
 		ImageWidth = sprite_get_width(Transparent)
-		ImageHeight = sprite_get_height(Transparent)
+		ImageHeight = sprite_get_height(Transparent)	
 		sprite_index = Transparent
 		for (subimg = 0; subimg <= frame_background_imgnumb; subimg += 1)
 		{
@@ -155,6 +147,3 @@ function generate_current_frame()
 	}
 	ini_close()
 }
-
-
-

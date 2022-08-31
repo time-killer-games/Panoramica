@@ -1,0 +1,94 @@
+{
+    "panorama_config": {
+        "gametitle": "Long Live the Ancient Essence",
+        "startframe": 1,
+        "start_direction": [180, 0],
+        "aspect_ratio": 1,
+        "debug_mode": 0
+    },
+
+    "frames": [
+        {
+            "background": ["frames/caverns_part_1.png", 1],
+            "sound_channels": [
+                [
+                    "chanting_warlocks.ogg",
+                    "chanting_warlocks.wav",
+                    1
+                ],
+                [
+                    "mark_of_the_beast.ogg",
+                    "mark_of_the_beast.wav",
+                    1
+                ]
+            ],
+            "panorama_projection": 1,
+            "timed_event": {
+                "has_timed_event": 0,
+                "total_time": 4,
+                "enable_transition": 0,
+                "event_tranistion_duration": 0.8
+            },
+            "hotspot_map": {
+                "hint_text": {
+                    "location": [1907, 853],
+                    "size": [57, 102],
+                    "transition_duration": 0.8,
+                    "must_show_message": 1,
+                    "message_text": "I wonder if there is a way to get up there",
+                    "variables": [
+                        {
+                            "name": "DeadEnd",
+                            "variable_get": 0,
+                            "variable_set": 0,
+                            "variable_get_value": 1,
+                            "variable_set_value": 0
+                        }
+                    ]
+                },
+                "next_room": {
+                    "location": [963, 985],
+                    "size": [151, 152],
+                    "transition_duration": 0.8,
+                    "must_go_to_frame": 1,
+                    "destination_frame": 2,
+                    "enable_transition": 1,
+                    "variables": []
+                }
+            }
+        },
+        {
+            "background": ["frames/caverns_part_2.png", 1],
+            "sound_channels": [
+                [
+                    "chanting_warlocks.ogg",
+                    "chanting_warlocks.wav",
+                    true
+                ],
+                [
+                    "mark_of_the_beast.ogg",
+                    "mark_of_the_beast.wav",
+                    true
+                ]
+            ],
+            "panorama_projection": 1,
+            "timed_event": {
+                "has_timed_event": 0,
+                "total_time": 4,
+                "enable_transition": 0,
+                "event_tranistion_duration": 0.8
+            },
+            "hotspot_map": {
+                "next_room": {
+                    "location": [1094, 1034],
+                    "size": [172, 150],
+                    "transition_duration": 0.8,
+                    "must_go_to_frame": 1,
+                    "destination_frame": 3,
+                    "enable_transition": 1,
+                    "variables": []
+                }
+            }
+        }
+    ]
+}

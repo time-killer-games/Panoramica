@@ -1,13 +1,46 @@
-if (alarm[0] > 0) exit
-
 //Get the texel coordinates of the current texel the camera is facing
 enablepanoramamode = frame_haspanoramaprojection
 if (enablepanoramamode = 1)
 {
 	if (draw_transition = 0)
 	{
-		direction -= mouse_get_delta_x() / 20
-		zdirection -= mouse_get_delta_y() / 20
+		if (mouse_x > cam_view_x + ((cam_view_x / 2) + cam_deadzone_left) && cam_view_x < (room_width - cam_view_width)) {
+			global.pan_x = false
+		} else if (mouse_x < cam_view_x + ((cam_view_x / 2) + cam_deadzone_right) && cam_view_x < (room_width - cam_view_width)) {
+			global.pan_x = false
+		} else {
+			global.pan_x = true
+		}
+		
+		if (mouse_y > cam_view_y + ((cam_view_y / 2) + cam_deadzone_up) && cam_view_y < (room_height - cam_view_height)) {
+			global.pan_y = false
+		} else if (mouse_y < cam_view_y + ((cam_view_y / 2) + cam_deadzone_down) && cam_view_y < (room_height - cam_view_height)) {
+			global.pan_y = false
+		} else {
+			global.pan_y = true
+		}
+		
+		if (global.mode == 1) {
+			direction -= mouse_get_delta_x() / 20
+			zdirection -= mouse_get_delta_y() / 20
+		} else if (global.mode == 2) {
+			if (global.pan_x == false) {
+				direction -= (mouse_get_delta_x() / 50 + 0.1) * 0.2
+				last_direction = direction
+			} else if (global.pan_x == true) {
+				pan_lerp_x = lerp(direction, last_direction + -mouse_get_delta_x() / 10, 0.05)
+				direction = pan_lerp_x
+			}
+			
+			if (global.pan_y == false) {
+				zdirection -= (mouse_get_delta_y() / 50 + 0.1) * 0.2
+				last_zdirection = zdirection
+			} else if (global.pan_y == true) {
+				pan_lerp_y = lerp(zdirection, last_zdirection + -mouse_get_delta_y() / 10, 0.05)
+				zdirection = pan_lerp_y
+			}
+		}
+		
 		calculate_direction()
 	}
 	if (mouse_is_locked() = 1)

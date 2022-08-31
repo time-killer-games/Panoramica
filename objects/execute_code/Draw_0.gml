@@ -1,5 +1,3 @@
-if (alarm[0] > 0) exit
-
 //Draw 2D picture frame
 if (enablepanoramamode = 0 && ImageLoaded = 1)
 {
@@ -55,12 +53,21 @@ if (draw_transition = 0 && ImageLoaded = 1)
 			d3d_set_projection_ortho(0, 0, window_get_width(), window_get_height(), 0)
 			if (over_hotspot = 1)
 			{
-				draw_sprite(spr_cr_handpoint, 0, window_get_width() / 2, window_get_height() / 2)
+				if (global.mode == 1) {
+					draw_sprite(spr_cr_handpoint, 0, window_get_width() / 2, window_get_height() / 2)
+				} else if (global.mode == 2) {
+					draw_sprite(spr_cr_handpoint, 0, window_mouse_get_x(), window_mouse_get_y())
+				}
 			}
 			draw_set_blend_mode(bm_zero)
 			if (over_hotspot = 0)
 			{
-				draw_sprite(spr_cr_cross, 0, window_get_width() / 2, window_get_height() / 2)
+				
+				if (global.mode == 1) {
+					draw_sprite(spr_cr_cross, 0, window_get_width() / 2, window_get_height() / 2)
+				} else if (global.mode == 2) {
+					draw_sprite(spr_cr_cross, 0,  window_mouse_get_x(), window_mouse_get_y())
+				}
 			}
 			draw_set_blend_mode(bm_normal)
 			if (debug_mode = 1 || debug_game = 1)

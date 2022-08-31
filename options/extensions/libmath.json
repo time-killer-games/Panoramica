@@ -1,0 +1,9 @@
+{
+  "extensionId": {
+    "name": "libmath",
+    "path": "extensions/libmath/libmath.yy"
+  },
+  "resourceVersion": "1.0",
+  "resourceType": "GMExtensionConfigSet",
+  "configurables": null
+}
